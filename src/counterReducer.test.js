@@ -1,4 +1,4 @@
-import counter from './reducer'
+import { counter } from './counterReducer'
 
 it('can count', () => {
   expect(

@@ -1,6 +1,6 @@
 import {todoReducer} from './todoReducer'
 
-it('can reduce todo', () => {
+it('can reduce [add] to todoList', () => {
   const stateBefore = []
   const action = {type: 'ADD_TODO', id: 0, text: 'Learn'}
   const stateAfter = [{id:0, text: 'Learn', completed: false}]
@@ -8,12 +8,17 @@ it('can reduce todo', () => {
   expect(todoReducer(stateBefore, action)).toEqual(stateAfter)
 })
 
-it('can reduce todo another array', () => {
-  const stateBefore = [{id:0, text: 'Learn', completed: false}]
-  const action = {type: 'ADD_TODO', id: 1, text: 'Redux'}
-  const stateAfter = [
+it('can reduce [toggle] to todoList', () => {
+  const stateBefore = [
     {id:0, text: 'Learn', completed: false},
     {id:1, text: 'Redux', completed: false}
+  ]
+
+  const action = {type: 'TOGGLE_TODO', id: 1}
+
+  const stateAfter = [
+    {id:0, text: 'Learn', completed: false},
+    {id:1, text: 'Redux', completed: true}
   ]
 
   expect(todoReducer(stateBefore, action)).toEqual(stateAfter)

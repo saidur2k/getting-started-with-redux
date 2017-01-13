@@ -47,4 +47,4 @@ const todoApp = (state = {}, action) => {
 }
 
 
-export { todoApp }
+export {todoReducer, visibilityFilter}

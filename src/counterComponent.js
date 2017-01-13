@@ -1,6 +1,6 @@
 import React from 'react'
-import { todoApp } from './todoReducer'
-import { createStore } from 'redux'
+import {todoReducer, visibilityFilter} from './todoReducer'
+import { createStore, combineReducers } from 'redux'
 
 const Counter = ({value, onIncrement, onDecrement}) => (
   <div>
@@ -11,7 +11,9 @@ const Counter = ({value, onIncrement, onDecrement}) => (
 )
 
 
+const todoApp = combineReducers({todoReducer, visibilityFilter})
 const store = createStore(todoApp)
+
 console.log('Initial State')
 console.log(store.getState())
 console.log('-------------')

@@ -1,17 +1,4 @@
-const individualTodoReducer = (state, action) => {
-  switch (action.type) {
-    case 'ADD_TODO':
-      const {type,...newTodo} = action
-      return {...newTodo, completed:false}
-    case 'TOGGLE_TODO':
-      if (state.id !== action.id) {
-        return state
-      }
-      return {...state, completed: !state.completed}
-    default:
-      return state
-  }
-}
+import { individualTodoReducer } from './individualTodoReducer'
 
 const todoReducer = (state = [], action) => {
   switch (action.type) {
@@ -24,27 +11,4 @@ const todoReducer = (state = [], action) => {
   }
 }
 
-const visibilityFilter = (state = 'SHOW_ALL', action) => {
-  switch(action.type) {
-    case 'SET_VISIBILITY_FILTER':
-      return action.filter
-    default:
-      return state
-    }
-}
-
-const todoApp = (state = {}, action) => {
-  return {
-    todos: todoReducer(
-      state.todos,
-      action
-    ),
-    visibilityFilter: visibilityFilter(
-      state.visibilityFilter,
-      action
-    )
-  }
-}
-
-
-export {todoReducer, visibilityFilter}
+export { todoReducer }

@@ -10,4 +10,4 @@ const combineReducers = (reducers) => {
   }
 }
 
-export { combineReducers } 
+export { combineReducers }

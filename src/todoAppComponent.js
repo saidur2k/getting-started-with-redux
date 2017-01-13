@@ -1,10 +1,4 @@
-import { combineReducers } from './combineReducers'
-import { todoReducer } from './todoReducer'
-import { visiblityFilter } from './visibilityFilter'
-import { createStore } from 'redux'
 
-const todoApp = combineReducers({todoReducer, visibilityFilter})
-const store = createStore(todoApp)
 
 console.log('Initial State')
 console.log(store.getState())

@@ -1,24 +1,46 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Counter } from './counterComponent'
-import { counter } from './counterReducer'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
+import { todoReducer as todos } from './todoReducer'
+import { visibilityFilter } from './visibilityFilter'
 
-const store = createStore(counter)
+const todoApp = combineReducers({todos, visibilityFilter})
+const store = createStore(todoApp)
+let nextTodoId = 0
+
+class TodoApp extends React.Component {
+  render () {
+    return (
+      <div>
+        <input ref={(node) => this.input = node} />
+        <button
+          onClick={
+            () => {
+              store.dispatch({
+                type: 'ADD_TODO',
+                id: nextTodoId++,
+                text: this.input.value
+              })
+              this.input.value = ''
+            }
+          }>
+          Add Todo
+        </button>
+        <ul>
+          {
+            this.props.todos.map( (todo) => {
+              return <li key={todo.id}>{todo.text}</li>
+            })
+          }
+        </ul>
+      </div>
+    )
+  }
+}
 
 const render = () => {
     ReactDOM.render(
-      <Counter
-        value={store.getState()}
-        onIncrement={() => {
-          store.dispatch({ type: 'INCREMENT'})
-          }
-        }
-        onDecrement={() => {
-          store.dispatch({ type: 'DECREMENT'})
-          }
-        }
-      />,
+      <TodoApp todos={store.getState().todos} />,
       document.getElementById('root')
     )
 }

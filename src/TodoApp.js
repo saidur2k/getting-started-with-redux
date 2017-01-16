@@ -4,14 +4,13 @@ import { AddTodo } from './AddTodo'
 import { VisibleTodoList } from './VisibleTodoList'
 import { Footer } from './Footer'
 
-const TodoApp = () => {
-  return (
-    <div>
-      <AddTodo />
-      <VisibleTodoList />
-      <Footer />
-    </div>
-  )
-}
+const TodoApp = () => (
+  <div>
+    <AddTodo />
+    <VisibleTodoList />
+    <Footer />
+  </div>
+)
+
 
 export { TodoApp }

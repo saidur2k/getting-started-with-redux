@@ -89,50 +89,32 @@ const Link = ({active, children, onClick}) => {
   )
 }
 
-class FilterLink extends React.Component {
-  componentDidMount () {
-    const {store}= this.context
-    this.unsubscribe = store.subscribe( () => this.forceUpdate() )
-  }
-
-  componentWillUnmount () {
-    this.unsubscribe()
-  }
-
-  render () {
-    const props = this.props
-    const {store} = this.context
-    const state = store.getState()
-    return (
-      <Link
-        active={props.filter === state.visibilityFilter}
-        onClick={ () =>
-          store.dispatch({
-            type: 'SET_VISIBILITY_FILTER',
-            filter: props.filter
-          })
-        }
-      >
-        {props.children}
-      </Link>
-    )
+const mapStateToLinkProps = (state, ownProps) => {
+  return {
+    active: ownProps.filter === state.visibilityFilter
   }
 }
-
-FilterLink.contextTypes = {
-  store: React.PropTypes.object
+const mapDispatchToLinkProps = (dispatch, ownProps) => {
+  return {
+    onClick: () => {
+      dispatch({
+        type: 'SET_VISIBILITY_FILTER',
+        filter: ownProps.filter
+      })
+    }
+  }
 }
-
+const FilterLink = connect(mapStateToLinkProps, mapDispatchToLinkProps)(Link)
 
 const Footer = () => {
  return (
    <p>
      Show:
-     { ' '}
+     { ' ' }
      <FilterLink filter='SHOW_ALL'>All</FilterLink>
-     { ' '}
+     { ' ' }
      <FilterLink filter='SHOW_ACTIVE'>Active</FilterLink>
-     { ' '}
+     { ' ' }
      <FilterLink filter='SHOW_COMPLETED'>Completed</FilterLink>
    </p>
  )

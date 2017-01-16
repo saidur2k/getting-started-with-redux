@@ -12,5 +12,4 @@ const TodoApp = () => (
   </div>
 )
 
-
 export { TodoApp }

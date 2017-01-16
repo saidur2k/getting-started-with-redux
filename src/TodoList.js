@@ -17,5 +17,4 @@ const TodoList = ({todos, onTodoClick}) => (
   </ul>
 )
 
-
 export { TodoList }

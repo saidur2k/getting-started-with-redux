@@ -7,7 +7,31 @@ import { visibilityFilter } from './visibilityFilter'
 
 const todoApp = combineReducers({todos, visibilityFilter})
 
+/*
+  Action Creators
+*/
+let nextTodoId = 0
+const addTodo = (text) => {
+  return {
+    type: 'ADD_TODO',
+    id: nextTodoId++,
+    text
+  }
+}
 
+const setVisibilityFilter = (filter) => {
+  return {
+    type: 'SET_VISIBILITY_FILTER',
+    filter
+  }
+}
+
+const toggleTodo = (id) => {
+  return {
+    type: 'TOGGLE_TODO',
+    id: id
+  }
+}
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
     case 'SHOW_ALL':
@@ -48,7 +72,7 @@ const TodoList = ({todos, onTodoClick}) => {
   )
 }
 
-let nextTodoId = 0
+
 let AddTodo = ({ dispatch }) => {
   let input
   return (
@@ -57,11 +81,7 @@ let AddTodo = ({ dispatch }) => {
       <button
         onClick={
           () => {
-            dispatch({
-              type: 'ADD_TODO',
-              id: nextTodoId++,
-              text: input.value
-            })
+            dispatch(addTodo(input.value))
             input.value = ''
           }
         }>
@@ -97,10 +117,7 @@ const mapStateToLinkProps = (state, ownProps) => {
 const mapDispatchToLinkProps = (dispatch, ownProps) => {
   return {
     onClick: () => {
-      dispatch({
-        type: 'SET_VISIBILITY_FILTER',
-        filter: ownProps.filter
-      })
+      dispatch(setVisibilityFilter(onwProps.filter))
     }
   }
 }
@@ -127,10 +144,7 @@ const mapStateToTodoListProps = (state) => {
 }
 const mapDispatchToTodoListProps = (dispatch) => {
   return {
-    onTodoClick: (id) => dispatch({
-      type: 'TOGGLE_TODO',
-      id: id
-    })
+    onTodoClick: (id) => dispatch(toggleTodo(id))
   }
 }
 const VisibleTodoList = connect(

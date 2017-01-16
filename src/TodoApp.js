@@ -12,4 +12,4 @@ const TodoApp = () => (
   </div>
 )
 
-export { TodoApp }
+export default TodoApp

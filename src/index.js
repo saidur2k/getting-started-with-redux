@@ -1,127 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Provider, connect } from 'react-redux'
+import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import { todoReducer as todos } from './todoReducer'
 import { visibilityFilter } from './visibilityFilter'
+import { VisibleTodoList } from './VisibleTodoList'
+import { FilterLink } from './FilterLink'
+import { AddTodo } from './AddTodo'
 
 const todoApp = combineReducers({todos, visibilityFilter})
-
-/*
-  Action Creators
-*/
-let nextTodoId = 0
-const addTodo = (text) => {
-  return {
-    type: 'ADD_TODO',
-    id: nextTodoId++,
-    text
-  }
-}
-
-const setVisibilityFilter = (filter) => {
-  return {
-    type: 'SET_VISIBILITY_FILTER',
-    filter
-  }
-}
-
-const toggleTodo = (id) => {
-  return {
-    type: 'TOGGLE_TODO',
-    id: id
-  }
-}
-const getVisibleTodos = (todos, filter) => {
-  switch (filter) {
-    case 'SHOW_ALL':
-      return todos
-    case 'SHOW_COMPLETED':
-      return todos.filter(todo => todo.completed === true)
-    case 'SHOW_ACTIVE':
-      return todos.filter(todo => !todo.completed === true)
-  }
-}
-
-const Todo = ({onClick, completed, text}) => {
-  return (
-    <li
-      onClick={onClick}
-      style={{textDecoration: completed ? 'line-through' : 'none'}}
-    >
-      {text}
-    </li>
-  )
-}
-
-const TodoList = ({todos, onTodoClick}) => {
-  return (
-    <ul>
-      {
-        todos.map((todo) => {
-          return (
-            <Todo
-              key={todo.id}
-              {...todo}
-              onClick={() => onTodoClick(todo.id)}
-            />
-          )
-        })
-      }
-    </ul>
-  )
-}
-
-
-let AddTodo = ({ dispatch }) => {
-  let input
-  return (
-    <div>
-      <input ref={(node) => input = node} />
-      <button
-        onClick={
-          () => {
-            dispatch(addTodo(input.value))
-            input.value = ''
-          }
-        }>
-        Add Todo
-      </button>
-    </div>
-  )
-}
-AddTodo = connect()(AddTodo)
-
-const Link = ({active, children, onClick}) => {
-  if (active) {
-    return <span>{children}</span>
-  }
-  return (
-    <a
-      href="#"
-      onClick={ (e) => {
-          e.preventDefault()
-          onClick()
-        }}
-      >
-        {children}
-      </a>
-  )
-}
-
-const mapStateToLinkProps = (state, ownProps) => {
-  return {
-    active: ownProps.filter === state.visibilityFilter
-  }
-}
-const mapDispatchToLinkProps = (dispatch, ownProps) => {
-  return {
-    onClick: () => {
-      dispatch(setVisibilityFilter(onwProps.filter))
-    }
-  }
-}
-const FilterLink = connect(mapStateToLinkProps, mapDispatchToLinkProps)(Link)
 
 const Footer = () => {
  return (
@@ -136,21 +23,6 @@ const Footer = () => {
    </p>
  )
 }
-
-const mapStateToTodoListProps = (state) => {
-  return {
-    todos: getVisibleTodos(state.todos, state.visibilityFilter)
-  }
-}
-const mapDispatchToTodoListProps = (dispatch) => {
-  return {
-    onTodoClick: (id) => dispatch(toggleTodo(id))
-  }
-}
-const VisibleTodoList = connect(
-    mapStateToTodoListProps,
-    mapDispatchToTodoListProps
-  )(TodoList)
 
 const TodoApp = () => {
   return (

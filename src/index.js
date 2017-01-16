@@ -7,7 +7,6 @@ import { visibilityFilter } from './visibilityFilter'
 
 const todoApp = combineReducers({todos, visibilityFilter})
 
-let nextTodoId = 0
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
@@ -49,7 +48,8 @@ const TodoList = ({todos, onTodoClick}) => {
   )
 }
 
-const AddTodo = (props, { store }) => {
+let nextTodoId = 0
+let AddTodo = ({ dispatch }) => {
   let input
   return (
     <div>
@@ -57,7 +57,7 @@ const AddTodo = (props, { store }) => {
       <button
         onClick={
           () => {
-            store.dispatch({
+            dispatch({
               type: 'ADD_TODO',
               id: nextTodoId++,
               text: input.value
@@ -70,10 +70,7 @@ const AddTodo = (props, { store }) => {
     </div>
   )
 }
-
-AddTodo.contextTypes = {
-  store: React.PropTypes.object
-}
+AddTodo = connect()(AddTodo)
 
 const Link = ({active, children, onClick}) => {
   if (active) {
@@ -141,13 +138,12 @@ const Footer = () => {
  )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToTodoListProps = (state) => {
   return {
     todos: getVisibleTodos(state.todos, state.visibilityFilter)
   }
 }
-
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToTodoListProps = (dispatch) => {
   return {
     onTodoClick: (id) => dispatch({
       type: 'TOGGLE_TODO',
@@ -155,10 +151,9 @@ const mapDispatchToProps = (dispatch) => {
     })
   }
 }
-
 const VisibleTodoList = connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToTodoListProps,
+    mapDispatchToTodoListProps
   )(TodoList)
 
 const TodoApp = () => {

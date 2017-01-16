@@ -1,39 +1,20 @@
+// React, ReactDOM, Redux librarries
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
+
+// Reducers
 import { todoReducer as todos } from './todoReducer'
 import { visibilityFilter } from './visibilityFilter'
-import { VisibleTodoList } from './VisibleTodoList'
-import { FilterLink } from './FilterLink'
-import { AddTodo } from './AddTodo'
 
+// Components
+import { TodoApp } from './TodoApp'
+
+// Combine all Reducers
 const todoApp = combineReducers({todos, visibilityFilter})
 
-const Footer = () => {
- return (
-   <p>
-     Show:
-     { ' ' }
-     <FilterLink filter='SHOW_ALL'>All</FilterLink>
-     { ' ' }
-     <FilterLink filter='SHOW_ACTIVE'>Active</FilterLink>
-     { ' ' }
-     <FilterLink filter='SHOW_COMPLETED'>Completed</FilterLink>
-   </p>
- )
-}
-
-const TodoApp = () => {
-  return (
-    <div>
-      <AddTodo />
-      <VisibleTodoList />
-      <Footer />
-    </div>
-  )
-}
-
+// Render App output
 ReactDOM.render(
   <Provider store={createStore(todoApp)}>
     <TodoApp />

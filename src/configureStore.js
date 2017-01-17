@@ -7,6 +7,7 @@ import throttle from 'lodash/throttle'
 const configureStore = () => {
   const persistedState = loadState()
   const store = createStore(todoApp, persistedState)
+  
   store.subscribe( throttle(() => {
     saveState(store.getState())
   }, 1000))

@@ -1,4 +1,4 @@
-const individualTodoReducer = (state, action) => {
+const todo = (state, action) => {
   switch (action.type) {
     case 'ADD_TODO':
       const {type,...newTodo} = action
@@ -13,4 +13,4 @@ const individualTodoReducer = (state, action) => {
   }
 }
 
-export { individualTodoReducer }
+export default todo
